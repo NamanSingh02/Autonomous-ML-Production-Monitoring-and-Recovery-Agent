@@ -48,6 +48,16 @@ The goal is to demonstrate a realistic autonomous AI system that works over **ch
 
 ---
 
+## Project Idea
+
+### 1. Autonomous ML Production Monitoring & Recovery Agent
+
+This project focuses on an AI agent that continuously monitors a deployed ML system for problems such as data drift, feature-quality issues, degraded model accuracy, inference latency spikes, broken pipelines, or bad deployments. When something goes wrong, the agent gathers evidence from model metrics, feature distributions, logs, experiment history, deployment metadata, model cards, runbooks, and prior incidents, then determines whether the failure is caused by the data, model, infrastructure, or serving pipeline and recommends or executes a recovery action.
+
+What makes this stronger than a simple Codex/Claude prompt is that the system operates over live, changing production state rather than a static codebase or one-time dataset. It can continuously detect anomalies, retrieve relevant historical context through RAG, choose which monitoring or infrastructure tools to call, compare current behavior against previous model versions, perform multi-step diagnosis, trigger safe rollback/retraining/reconfiguration workflows, verify whether performance recovered, and keep an auditable trace of the entire process. A single prompt can analyze information you manually provide; this system autonomously decides what information it needs, when to fetch it, what action to take, and whether that action actually worked.
+
+---
+
 ## Why This Is More Than Giving Claude Code or Codex a Prompt
 
 A coding assistant can be given a repository, logs, configuration files, or model artifacts and asked:
