@@ -1,0 +1,7 @@
+#The purpose of this Document:
+- This document notes what all needs to be done in each part of the project as categorized by phases mentioned in roadmap.md
+- Why are these tasks important to learn? (practical/industry use/relevance)
+- Does it have any exceptions/challenges/special concepts to notice and keep in mind?
+- What are the learning outcomes from this task? (including technologies as well)
+- In simpler words, this is like what all the question is asking me to do
+- It doesn't include a lot of details, just what all I have to implement in each part, task, subtask

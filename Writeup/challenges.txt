@@ -1,0 +1,5 @@
+#The purpose of this Document:
+- This document notes all the challenges/bugs/errors I faced for each task categorized by phases mentioned in roadmap.md
+- It notes: Brief context (what was happening, what did I do? and in which scenario?), description (why it was happening), and how I fixed it
+- lessons learnt during solving the task
+
