@@ -5,22 +5,38 @@
 
 # Phase 0 - Define the Scope and Success Criteria
 
-Challenge: Turning the broad capability list into a concrete first release.
-Context: The existing plans covered many technologies and incident types without selecting a prediction task or measurable baseline.
-Resolution: Selected a seeded synthetic classification scenario, defined eight initial incident families, and made the first complete local workflow cover model deployment, preprocessing, and serving crashes. Kept optional specialists and infrastructure behind later evaluation milestones.
-Lesson learned: A fixed scenario and measurable boundaries make architecture decisions and comparisons reviewable.
+1. Challenge: The terminal did not interpret the project path correctly.
+Context: I tried to navigate to the project directory using its full path without quotes. The path contained spaces and a closing parenthesis in 1)Projects.
+Description: zsh interpreted the spaces as argument separators and the unquoted parenthesis as shell syntax, so the command did not reach the intended directory.
+How I fixed it: I enclosed the entire path in single quotes:
 
-Challenge: Avoiding misleading recovery and benchmark results.
-Context: Distribution drift does not necessarily mean model-quality degradation, and an action returning successfully does not prove that production recovered. Hidden simulator answers could also make diagnosis artificially easy.
-Resolution: Separated drift from delayed-label quality, defined expected escalation outcomes, required fresh verification windows, and isolated fault manifests and benchmark answers from agent tools and memory.
-Lesson learned: Diagnosis, permitted action, and observed outcome require separate evidence.
+cd '/Users/naman/1)Projects/agentic AI projects/Autonomous-ML-Production-Monitoring-and-Recovery-Agent'
 
-Challenge: Keeping the sequential writeup under version control.
-Context: The existing steps.txt ignore pattern also matched Writeup/steps.txt.
-Resolution: Anchored the original ignore pattern to /steps.txt so the required Writeup/steps.txt remains trackable.
-Lesson learned: Unanchored ignore patterns can hide required documentation in subdirectories.
+Lesson learned: I needed to quote full paths containing spaces or shell-special characters, including file paths passed to commands.
 
-Challenge: Writing a documented shell command inside a shell-driven editing script.
-Context: The first editing command used the same heredoc terminator as the Python command being added to steps.txt. The shell ended the outer script early and reported an unmatched quote before the script ran.
-Resolution: Used a distinct outer heredoc terminator and reran the editing command successfully. Kept only the final working scaffold command in steps.txt.
-Lesson learned: Nested command examples need distinct heredoc delimiters to avoid premature termination.
+2. Challenge: The empty component directories did not appear in Git.
+Context: I created the initial folders for the agent, backend, ML service, retrieval, and other components before adding implementation files. The empty folders did not appear in git status.
+Description: Git tracked files rather than empty directories, so creating a folder alone did not preserve it in the repository.
+How I fixed it: I added a .gitkeep file to each empty component directory. For example:
+
+touch agent/graph/.gitkeep
+
+Lesson learned: I used placeholder files to preserve the initial directory structure. The .gitkeep name was a convention, not a special Git feature.
+
+3. Challenge: steps.txt remained tracked after I added it to .gitignore.
+Context: I wanted Writeup/steps.txt to stay on my computer without being included in future commits, but the file had already been added to Git.
+Description: The /steps.txt rule matched only a file at the repository root. Also, ignore rules did not remove a file that was already in the Git index.
+How I fixed it: I changed the rule to steps.txt so it matched at every directory level, then removed the writeup from the index while preserving the local file:
+
+git rm --cached -- Writeup/steps.txt
+git check-ignore Writeup/steps.txt
+
+The ignore check printed Writeup/steps.txt. Git showed a staged deletion because the next commit needed to remove the tracked copy; the local file remained intact.
+
+Lesson learned: I needed both a matching ignore rule and removal from the index to stop tracking an existing file. I used --cached to retain the local copy.
+
+4. Challenge: A multiline editing command failed with an unmatched quote.
+Context: I used a shell heredoc to run a Python editing script. The text being written to steps.txt included another heredoc command with the same PY terminator.
+Description: The shell treated the inner PY line as the end of the outer script. It then parsed the remaining document text as shell input and reported an unmatched quote before the editing script ran.
+How I fixed it: I changed the outer terminator to PHASE0_SCRIPT, kept PY for the command inside the document, and reran the editing command. Both closing terminators were placed on their own lines without indentation.
+Lesson learned: I needed distinct delimiters when a heredoc contained another heredoc example.

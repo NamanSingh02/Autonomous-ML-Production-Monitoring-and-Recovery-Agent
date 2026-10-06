@@ -8,6 +8,7 @@
 - Defined initial detection rules, severity, alert deduplication, recovery permissions, approval binding, action limits, and fresh-window verification.
 - Defined a 60-case held-out benchmark, retrieval evaluation, metric denominators, initial acceptance targets, and architecture comparisons.
 - Documented the architecture and development milestones, created component directories, and synchronized README.md, Implementation_plan.md, and Roadmap.md.
-- Corrected the ignore rule so Writeup/steps.txt can be tracked, and excluded generated datasets, artifacts, local credentials, and Python runtime files.
+- Excluded generated datasets, artifacts, local credentials, and Python runtime files. Kept steps.txt as a local-only writeup, ignored at every directory level and removed from the Git index.
 - Marked all Phase 0 roadmap tasks complete. Later-phase tasks remain pending; no model, API, agent, or deployment was implemented in this phase.
-- Verified the 14 completed checklist items, pending later phases, 25 scaffold placeholders, local document links, Markdown code fences, writeup rules, unchanged Project Idea wording, and the steps-file ignore exception. The Git whitespace check passed.
+- Verified the 14 completed checklist items, pending later phases, 25 scaffold placeholders, local document links, Markdown code fences, writeup rules, unchanged Project Idea wording, and the steps-file ignore rule. The Git whitespace check passed.
+- Rewrote the Phase 0 challenges in first-person past tense, replacing general planning discussions with setup-specific troubleshooting entries covering path quoting, empty Git directories, steps.txt tracking, and heredoc delimiters.

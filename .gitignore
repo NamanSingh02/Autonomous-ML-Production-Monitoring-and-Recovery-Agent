@@ -1,5 +1,5 @@
 .ds_store
-/steps.txt
+steps.txt
 .DS_Store
 .venv/
 __pycache__/
