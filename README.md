@@ -122,6 +122,20 @@ This project explores whether an agentic AI system can perform that investigatio
 
 ---
 
+## Selected Initial Scope
+
+Phase 0 is complete. I plan to implement a simulated equipment-failure prediction service using a seeded synthetic dataset and a RandomForestClassifier. Requests contain temperature, vibration, pressure, operating hours, and load; responses include failure probability and model/preprocessing versions. Production labels become available after a simulated delay so quality monitoring has realistic evidence constraints.
+
+The initial incident catalogue covers sudden and gradual data drift, invalid features, a degraded model deployment, broken preprocessing, dependency latency, an inference-service crash, and a database outage. The first complete local workflow covers model rollback, preprocessing rollback, and a bounded inference-service restart before expanding to all eight incident families.
+
+Read-only investigation runs automatically. Model/configuration rollback, pipeline reruns, and retraining require explicit operator approval. The only initial automatic operational mutation is one restart of an allowlisted disposable inference service per incident, after failed probes and a healthy database check. Database repair and unsupported actions lead to internal escalation. Recovery must pass verification on fresh traffic and, where relevant, newly released labels.
+
+Initial acceptance targets include at least 90% incident detection recall, 80% exact root-cause accuracy, 90% verified recovery on recoverable cases, and zero unauthorized actions. The planned held-out benchmark has 60 cases, including healthy controls and compound incidents. Targets are not achieved results.
+
+The complete scenario, normal-behavior contract, thresholds, permissions, metric definitions, and development milestones are in [Implementation_plan.md](Implementation_plan.md). Component boundaries and trust boundaries are in [docs/architecture.md](docs/architecture.md).
+
+---
+
 ## Main Capabilities
 
 ### Production ML Monitoring
@@ -580,7 +594,7 @@ The CI pipeline can block deployment if agent or retrieval performance regresses
 
 ## Repository Structure
 
-A likely repository structure:
+The Phase 0 scaffold contains these component directories. They are placeholders for later implementation; no services or Compose configuration have been built yet.
 
 ```text
 .
@@ -599,6 +613,7 @@ A likely repository structure:
 │   ├── inference/
 │   ├── monitoring/
 │   └── models/
+├── simulation/
 ├── rag/
 │   ├── ingestion/
 │   ├── retrieval/
@@ -611,11 +626,14 @@ A likely repository structure:
 ├── infrastructure/
 ├── tests/
 ├── evals/
+├── data/
+├── artifacts/
 ├── docs/
-└── docker-compose.yml
+│   └── architecture.md
+└── Writeup/
 ```
 
-The exact structure may evolve as implementation progresses.
+Generated data and artifacts are excluded from version control. Docker Compose configuration will be added when services are implemented.
 
 ---
 
@@ -685,10 +703,11 @@ Expected local requirements:
 
 ## Project Status
 
-This project is under active development.
+Phase 0 is complete: the scope, success criteria, recovery policy, architecture, development milestones, and repository scaffold are defined. Model training and application implementation have not started.
 
 ### Planned Milestones
 
+- [x] Phase 0: scope, success criteria, architecture, and repository scaffold
 - [ ] Baseline ML system
 - [ ] Production simulation
 - [ ] Monitoring and drift detection

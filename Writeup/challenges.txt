@@ -3,3 +3,24 @@
 - It notes: Brief context (what was happening, what did I do? and in which scenario?), description (why it was happening), and how I fixed it
 - lessons learnt during solving the task
 
+# Phase 0 - Define the Scope and Success Criteria
+
+Challenge: Turning the broad capability list into a concrete first release.
+Context: The existing plans covered many technologies and incident types without selecting a prediction task or measurable baseline.
+Resolution: Selected a seeded synthetic classification scenario, defined eight initial incident families, and made the first complete local workflow cover model deployment, preprocessing, and serving crashes. Kept optional specialists and infrastructure behind later evaluation milestones.
+Lesson learned: A fixed scenario and measurable boundaries make architecture decisions and comparisons reviewable.
+
+Challenge: Avoiding misleading recovery and benchmark results.
+Context: Distribution drift does not necessarily mean model-quality degradation, and an action returning successfully does not prove that production recovered. Hidden simulator answers could also make diagnosis artificially easy.
+Resolution: Separated drift from delayed-label quality, defined expected escalation outcomes, required fresh verification windows, and isolated fault manifests and benchmark answers from agent tools and memory.
+Lesson learned: Diagnosis, permitted action, and observed outcome require separate evidence.
+
+Challenge: Keeping the sequential writeup under version control.
+Context: The existing steps.txt ignore pattern also matched Writeup/steps.txt.
+Resolution: Anchored the original ignore pattern to /steps.txt so the required Writeup/steps.txt remains trackable.
+Lesson learned: Unanchored ignore patterns can hide required documentation in subdirectories.
+
+Challenge: Writing a documented shell command inside a shell-driven editing script.
+Context: The first editing command used the same heredoc terminator as the Python command being added to steps.txt. The shell ended the outer script early and reported an unmatched quote before the script ran.
+Resolution: Used a distinct outer heredoc terminator and reran the editing command successfully. Kept only the final working scaffold command in steps.txt.
+Lesson learned: Nested command examples need distinct heredoc delimiters to avoid premature termination.

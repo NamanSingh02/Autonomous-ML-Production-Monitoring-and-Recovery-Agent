@@ -1,3 +1,12 @@
 .ds_store
-steps.txt
-
+/steps.txt
+.DS_Store
+.venv/
+__pycache__/
+*.py[cod]
+.env
+.env.*
+!.env.example
+data/generated/
+artifacts/*
+!artifacts/.gitkeep

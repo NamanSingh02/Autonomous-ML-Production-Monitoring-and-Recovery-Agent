@@ -1,0 +1,45 @@
+#The purpose of this Document:
+- This document notes the final version of the steps in sequential order that must be done to complete this part of the project from scratch (assuming minimal prerequisites and existing knowledge) categorized by phases mentioned in roadmap.md
+- If a step was found to be wrong or leading to unnecessary complications, then that step was fixed in this document and this document contains the final steps only
+- This document will include all the commands to be run as well
+- The language should be such that indicates steps. For example: instead of "I will create", simply write "create"
+- The language should be the same as you are writing in the chats, I don't want to see 2 different versions of the same instructions in this document and in your chat.
+
+# Phase 0 - Define the Scope and Success Criteria
+
+1. Read AGENTS.md, README.md, Implementation_plan.md, Roadmap.md, and all four writeup files to establish the project goals and documentation rules.
+2. Select synthetic equipment-failure classification and record the features, data splits, model type, delayed-label behavior, and normal operating contract in the Phase 0 section of Implementation_plan.md.
+3. Define the eight incident families, compound cases, observable evidence, expected recovery or escalation, thresholds, and severity in that same section.
+4. Define recovery permissions, approval requirements, action limits, idempotency, and fresh-window verification. Keep evaluator answers and fault controls outside the agent's tool access.
+5. Define held-out benchmark cases, retrieval queries, metric denominators, acceptance targets, budgets, and development milestones. Label every target as planned rather than measured.
+6. Create the component scaffold from the repository root with Python 3:
+
+python3 - <<'PY'
+from pathlib import Path
+
+directories = [
+    'agent/graph', 'agent/prompts', 'agent/state', 'agent/memory', 'agent/evaluation',
+    'backend/api', 'backend/services', 'backend/auth',
+    'ml_service/training', 'ml_service/inference', 'ml_service/monitoring', 'ml_service/models',
+    'simulation', 'rag/ingestion', 'rag/retrieval', 'rag/reranking', 'rag/evaluation',
+    'mcp/monitoring_server', 'mcp/recovery_server', 'frontend', 'infrastructure',
+    'tests', 'evals', 'data', 'artifacts', 'docs',
+]
+for directory in directories:
+    path = Path(directory)
+    path.mkdir(parents=True, exist_ok=True)
+    if directory != 'docs':
+        (path / '.gitkeep').touch(exist_ok=True)
+PY
+
+7. Add docs/architecture.md with component responsibilities, data flow, persistent state, trust boundaries, and the local deployment plan.
+8. Anchor the existing steps.txt ignore rule to /steps.txt so Writeup/steps.txt is trackable. Add ignore rules for .DS_Store, .venv/, __pycache__/, *.py[cod], .env, .env.*, data/generated/, and artifacts/*; retain exceptions for .env.example and artifacts/.gitkeep.
+9. Add the selected scope and actual scaffold to README.md. Preserve the original Project Idea wording. Mark Phase 0 complete in Roadmap.md while leaving later phases pending.
+10. Record completed work, resolved planning challenges, and learning outcomes in their respective writeup files without adding dates.
+11. Check formatting, changed files, and the writeup ignore rule:
+
+git diff --check
+git status --short --untracked-files=all
+git check-ignore Writeup/steps.txt
+
+The last command should print nothing and return exit code 1, confirming that Writeup/steps.txt is not ignored. No model training, service startup, API credentials, or dependency installation is required to complete Phase 0.

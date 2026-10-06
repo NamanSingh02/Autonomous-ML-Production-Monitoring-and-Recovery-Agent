@@ -5,3 +5,18 @@
 - What are the learning outcomes from this task? (including technologies as well)
 - In simpler words, this is like what all the question is asking me to do
 - It doesn't include a lot of details, just what all I have to implement in each part, task, subtask
+
+# Phase 0 - Define the Scope and Success Criteria
+Status: Complete.
+
+Tasks:
+- Select the production scenario, prediction task, baseline model, data recipe, and normal operating contract.
+- Define data, model, infrastructure, and serving/pipeline incident cases and expected evidence.
+- Define automatic actions, approval-gated actions, unsupported actions, and recovery verification.
+- Define evaluation datasets, metric denominators, initial success targets, and experiment isolation.
+- Establish component boundaries, repository structure, and development milestones.
+- Synchronize the plans, README, roadmap, and phase writeups.
+
+Practical relevance: These decisions establish the operational contract, constrain recovery authority, and make incident-response quality measurable before implementation.
+Special concepts: Delayed labels, unknown health states, drift versus quality loss, approval bound to exact parameters, idempotency, independent action authorization, benchmark leakage, and escalation as a valid outcome.
+Learning outcomes: ML monitoring scope, agent architecture, recovery-policy design, evaluation design, repository organization, and reproducible simulation planning.

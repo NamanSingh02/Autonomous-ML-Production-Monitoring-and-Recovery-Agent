@@ -51,20 +51,24 @@ The final project should demonstrate practical experience with:
 
 # Phase 0 - Define the Scope and Success Criteria
 
-- [ ] Define the exact ML production scenario that the project will simulate.
-- [ ] Select the model type and prediction task used by the monitored ML service.
-- [ ] Define the normal production behavior of the model.
-- [ ] Define the types of incidents that the system must detect.
-- [ ] Define which incidents are caused by data problems.
-- [ ] Define which incidents are caused by model problems.
-- [ ] Define which incidents are caused by infrastructure problems.
-- [ ] Define which incidents are caused by serving or pipeline problems.
-- [ ] Define which recovery actions can be executed automatically.
-- [ ] Define which recovery actions require human approval.
-- [ ] Define measurable project success criteria.
-- [ ] Define the initial evaluation metrics for incident detection, diagnosis, recovery, retrieval, latency, and cost.
-- [ ] Create the repository structure and development milestones.
-- [ ] Document the planned system architecture at a high level.
+- [x] Define the exact ML production scenario that the project will simulate.
+- [x] Select the model type and prediction task used by the monitored ML service.
+- [x] Define the normal production behavior of the model.
+- [x] Define the types of incidents that the system must detect.
+- [x] Define which incidents are caused by data problems.
+- [x] Define which incidents are caused by model problems.
+- [x] Define which incidents are caused by infrastructure problems.
+- [x] Define which incidents are caused by serving or pipeline problems.
+- [x] Define which recovery actions can be executed automatically.
+- [x] Define which recovery actions require human approval.
+- [x] Define measurable project success criteria.
+- [x] Define the initial evaluation metrics for incident detection, diagnosis, recovery, retrieval, latency, and cost.
+- [x] Create the repository structure and development milestones.
+- [x] Document the planned system architecture at a high level.
+
+Phase 0 decisions are recorded in the selected-scope section of [Implementation_plan.md](Implementation_plan.md), with component boundaries in [docs/architecture.md](docs/architecture.md). The selected scenario is synthetic equipment-failure classification, with eight initial incident families, explicit recovery permissions, and a 60-case held-out acceptance benchmark. These are plans and targets; application implementation begins in Phase 1.
+
+Development milestones M0-M6 are defined in Implementation_plan.md. M0 is complete; the remaining milestones are pending. The first complete local workflow covers bad model deployment, broken preprocessing, and an inference-service crash. Minimum approval enforcement, observability, and testing accompany recovery implementation.
 
 ---
 
