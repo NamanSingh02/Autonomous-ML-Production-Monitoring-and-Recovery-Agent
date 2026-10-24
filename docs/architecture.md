@@ -1,6 +1,6 @@
 # Planned System Architecture
 
-This document describes the component boundaries for the scope defined in Phase 0 of Implementation_plan.md. These are planned components; the repository scaffold does not imply that services are implemented.
+This document describes the component boundaries for the scope defined in Phase 0 of Implementation_plan.md. Phase 1 implements the baseline data/training commands and inference API. The other components remain planned. Full baseline execution and container verification remain local steps.
 
 ## Production and Investigation Flow
 
@@ -82,3 +82,12 @@ A restart, rollback, or successful tool response begins verification rather than
 The first runnable environment will use Docker Compose for inference, monitoring/traffic processes, backend/agent execution, MCP endpoints, and PostgreSQL with pgvector. Directory boundaries do not require independent microservices. The initial agent runs as one investigator with persistent checkpoints. Monitoring and recovery tools have separate permissions even if initially hosted in the same deployment.
 
 The backend streams structured stage, evidence, action, approval, and outcome events to the later frontend. Traces correlate these events with LLM calls, retrieval, and tool calls. Cloud deployment and worker scaling follow after the local workflow and benchmark pass their acceptance gates.
+
+## Phase 1 Implementation Boundary
+
+The implemented path is synthetic dataset generation -> single-core training -> immutable
+model bundle -> FastAPI inference. It has no PostgreSQL, agent, fault injector, continuous
+traffic, or retrieval dependency yet. Validation reference summaries are saved for future
+monitoring. The existing Compose file runs only inference and mounts locally generated
+model bundles read-only. Separate inference and request timing is recorded in responses
+and JSON logs; distributed tracing follows later. See [phase1.md](phase1.md) for execution.

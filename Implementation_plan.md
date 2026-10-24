@@ -165,6 +165,39 @@ The roadmap groups capabilities; it is not a rule to postpone security, approval
 
 ---
 
+# Phase 1 - Baseline ML Implementation
+
+I implemented the equipment-v1 generator, independently seeded 30,000/5,000/5,000 splits,
+training-only prevalence calibration, checksummed dataset manifests, and a versioned
+RandomForestClassifier training command. The default training settings are 100 trees,
+maximum depth 12, minimum leaf size 5, seed 17, and one job. Quality gates require both
+validation and test ROC-AUC of at least 0.80, average precision above prevalence, and a
+training positive rate between 20% and 40%. The fixed model is evaluated once; held-out
+results are not used for configuration selection.
+
+Each successful run publishes an immutable model bundle containing the estimator, metrics,
+dataset provenance, validation reference statistics, metadata, and a generated model card.
+The serving API verifies the bundle's checksums, feature contract, quality gate, and runtime
+versions before deserialization. The shared preprocessing contract preserves units and
+explicit feature order without scaling or imputation. Request validation rejects coercion,
+missing fields, non-finite values, extras, and out-of-range inputs.
+
+The FastAPI service exposes /predict, /model, /health/live, and /health/ready. It measures
+inference and application request latency separately and emits correlated JSON logs.
+Loading failures leave readiness at HTTP 503 while liveness stays available. Startup does
+not generate data or train. I included a non-root Docker image, an inference-only Compose
+configuration with read-only model mounts, and a standard-library HTTP check script.
+
+Fifteen lightweight tests passed with an 800-row training fixture, 200-row validation and
+test fixtures, and eight trees. Full data generation, baseline training, live HTTP checks,
+and Docker build/runtime verification remain for local execution. The source implementation
+is complete; no actual full-data model metrics or performance-target achievements are
+claimed. Execution instructions are in [docs/phase1.md](docs/phase1.md) and the local
+Writeup/steps.txt. Continuous traffic, faults, delayed-label release, and telemetry storage
+remain in later phases.
+
+---
+
 # 1. LLM / Generative AI Core
 
 The project will integrate one or more modern LLM providers and support production-style model interaction.

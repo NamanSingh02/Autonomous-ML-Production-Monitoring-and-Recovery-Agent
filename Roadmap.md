@@ -74,29 +74,33 @@ Development milestones M0-M6 are defined in Implementation_plan.md. M0 is comple
 
 # Phase 1 - Build the Baseline ML Production System
 
-- [ ] Select or create a realistic dataset for the deployed ML model.
-- [ ] Create training and validation datasets.
-- [ ] Train the baseline ML model.
-- [ ] Save model artifacts and metadata.
-- [ ] Version the model.
-- [ ] Record training metrics.
-- [ ] Create a model card containing:
-  - [ ] Model purpose
-  - [ ] Training data description
-  - [ ] Features
-  - [ ] Expected input ranges
-  - [ ] Evaluation metrics
-  - [ ] Known limitations
-  - [ ] Deployment assumptions
-- [ ] Build a FastAPI inference service.
-- [ ] Add input validation.
-- [ ] Add structured prediction responses.
-- [ ] Add model version information to inference responses.
-- [ ] Add inference latency measurement.
-- [ ] Add structured application logging.
-- [ ] Add health-check endpoints.
-- [ ] Containerize the inference service with Docker.
-- [ ] Verify that the baseline model can be called through an API.
+Status: Source implementation complete; 15 lightweight fixture tests passed. Full dataset generation, baseline training, live HTTP verification, and Docker build/runtime checks are pending local execution as requested. Checked items below refer to implemented capabilities rather than already-generated full-data artifacts.
+
+- [x] Select and implement a seeded synthetic equipment-failure dataset recipe.
+- [x] Implement independent training, validation, and held-out test dataset generation.
+- [x] Implement baseline RandomForestClassifier training with bounded single-core settings.
+- [x] Implement saving model artifacts, integrity hashes, and runtime metadata.
+- [x] Implement immutable model version directories.
+- [x] Implement recording training, validation, and test metrics and enforcing release gates.
+- [x] Implement generating a model card containing:
+  - [x] Model purpose
+  - [x] Training data description
+  - [x] Features
+  - [x] Expected input ranges
+  - [x] Measured evaluation metrics when training runs
+  - [x] Known limitations
+  - [x] Deployment assumptions
+- [x] Build a FastAPI inference service.
+- [x] Add strict input validation.
+- [x] Add structured prediction responses.
+- [x] Add model and preprocessing version information to inference responses.
+- [x] Add inference latency measurement and application request timing.
+- [x] Add structured application logging with request correlation.
+- [x] Add separate liveness and readiness endpoints.
+- [x] Add a Dockerfile and inference-only Docker Compose configuration.
+- [x] Verify the prediction API with small in-process fixtures and provide a live HTTP check script.
+
+Implementation and execution details are in [docs/phase1.md](docs/phase1.md). The exact full baseline metrics and container behavior will be recorded after local execution. The broader M1 observable-simulation milestone still requires Phases 2-4.
 
 ---
 

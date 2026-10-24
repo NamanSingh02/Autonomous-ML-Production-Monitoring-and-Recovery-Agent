@@ -40,3 +40,23 @@ Context: I used a shell heredoc to run a Python editing script. The text being w
 Description: The shell treated the inner PY line as the end of the outer script. It then parsed the remaining document text as shell input and reported an unmatched quote before the editing script ran.
 How I fixed it: I changed the outer terminator to PHASE0_SCRIPT, kept PY for the command inside the document, and reran the editing command. Both closing terminators were placed on their own lines without indentation.
 Lesson learned: I needed distinct delimiters when a heredoc contained another heredoc example.
+
+# Phase 1 - Build the Baseline ML Production System
+
+1. Challenge: The HTTP test client emitted a deprecation warning.
+Context: I ran the small API tests with the pinned FastAPI and Starlette packages and the original HTTPX development dependency.
+Description: Starlette reported that its TestClient integration with httpx was deprecated and identified httpx2 as the supported replacement. The tests passed, but the dependency choice left the warning in every test run.
+How I fixed it: I replaced the HTTPX entry in requirements-dev.txt with the compatible pinned HTTPX2 client, installed it in the isolated test environment, and reran the tests.
+Lesson learned: I checked the test client's dependency requirements alongside the framework version rather than assuming that older testing examples still matched the installed framework.
+
+2. Challenge: A missing model bundle made prediction and readiness requests return HTTP 503.
+Context: I exercised startup with an empty artifact directory in the small integration tests.
+Description: No metadata.json or trained estimator existed for the selected model version. A running FastAPI process alone did not make the prediction service ready.
+How I fixed it: I separated liveness from readiness, recorded the loading failure, and kept predictions unavailable until a valid bundle could be loaded. I put data generation and training before startup in the local execution steps; the application did not train implicitly.
+Lesson learned: I needed to check /health/ready and model artifacts rather than using process liveness as proof that inference worked.
+
+3. Challenge: Changed artifacts and incompatible metadata prevented model loading.
+Context: I exercised checksum, feature-order, and runtime-version mismatches in the artifact-loading tests.
+Description: A model file could not safely be treated as interchangeable with any dataset, preprocessing order, or scikit-learn environment. The loader rejected those mismatches before deserialization.
+How I fixed it: I recorded the shared contract, bundle checksums, and exact training-library versions in metadata, pinned the runtime dependencies, and made startup validate them. The rejection tests passed without loading the invalid model.
+Lesson learned: I needed the model's input contract and compatible environment alongside the serialized estimator. A checksum established integrity, while the source directory still needed to be trusted.

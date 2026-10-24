@@ -124,7 +124,7 @@ This project explores whether an agentic AI system can perform that investigatio
 
 ## Selected Initial Scope
 
-Phase 0 is complete. I plan to implement a simulated equipment-failure prediction service using a seeded synthetic dataset and a RandomForestClassifier. Requests contain temperature, vibration, pressure, operating hours, and load; responses include failure probability and model/preprocessing versions. Production labels become available after a simulated delay so quality monitoring has realistic evidence constraints.
+Phase 0 is complete, and Phase 1 implements the baseline equipment-failure prediction service using a seeded synthetic dataset and a RandomForestClassifier. Full dataset generation, baseline training, and container execution remain local steps. Requests contain temperature, vibration, pressure, operating hours, and load; responses include failure probability and model/preprocessing versions. Production labels become available after a simulated delay so quality monitoring has realistic evidence constraints.
 
 The initial incident catalogue covers sudden and gradual data drift, invalid features, a degraded model deployment, broken preprocessing, dependency latency, an inference-service crash, and a database outage. The first complete local workflow covers model rollback, preprocessing rollback, and a bounded inference-service restart before expanding to all eight incident families.
 
@@ -594,7 +594,7 @@ The CI pipeline can block deployment if agent or retrieval performance regresses
 
 ## Repository Structure
 
-The Phase 0 scaffold contains these component directories. They are placeholders for later implementation; no services or Compose configuration have been built yet.
+The baseline code now lives in ml_service/, with lightweight tests in tests/ and an HTTP check in scripts/. Other component directories remain placeholders for later phases. Dockerfile, docker-compose.yml, pinned requirements, and the Python project configuration are included at the root.
 
 ```text
 .
@@ -614,6 +614,8 @@ The Phase 0 scaffold contains these component directories. They are placeholders
 │   ├── monitoring/
 │   └── models/
 ├── simulation/
+├── scripts/
+│   └── check_inference.py
 ├── rag/
 │   ├── ingestion/
 │   ├── retrieval/
@@ -629,11 +631,12 @@ The Phase 0 scaffold contains these component directories. They are placeholders
 ├── data/
 ├── artifacts/
 ├── docs/
-│   └── architecture.md
+│   ├── architecture.md
+│   └── phase1.md
 └── Writeup/
 ```
 
-Generated data and artifacts are excluded from version control. Docker Compose configuration will be added when services are implemented.
+Generated data and model artifacts are excluded from version control. Compose currently runs only the inference service; the remaining services follow their roadmap phases.
 
 ---
 
@@ -687,28 +690,38 @@ The system should:
 
 ## Setup
 
-Detailed setup instructions will be added as the implementation stabilizes.
+The Phase 1 baseline uses Python 3.11. Run these commands from the repository root:
 
-Expected local requirements:
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+python -m pip install -r requirements-dev.txt
+export OMP_NUM_THREADS=1
+export OPENBLAS_NUM_THREADS=1
+export MKL_NUM_THREADS=1
+python -m unittest discover -s tests -v
+python -m ml_service.training.data
+python -m ml_service.training.train
+python -m uvicorn ml_service.inference.app:app --host 127.0.0.1 --port 8000 --workers 1 --no-access-log
+```
 
-- Python
-- Node.js
-- Docker
-- Docker Compose
-- PostgreSQL
-- Redis
-- LLM provider credentials
+In another terminal, activate the same environment and run `python scripts/check_inference.py`.
+For Docker, train the model first, stop the local server, then run `docker compose up --build -d inference`.
+The complete commands, generated artifact layout, API contract, Docker-only alternative,
+and troubleshooting context are in [docs/phase1.md](docs/phase1.md).
+The detailed personal execution steps are also maintained locally in Writeup/steps.txt,
+which remains excluded from Git. No LLM credentials or database is needed for Phase 1.
 
 ---
 
 ## Project Status
 
-Phase 0 is complete: the scope, success criteria, recovery policy, architecture, development milestones, and repository scaffold are defined. Model training and application implementation have not started.
+Phase 0 planning and Phase 1 source implementation are complete. Phase 1 includes deterministic data generation, bounded single-core training, versioned model bundles and generated model cards, strict FastAPI prediction endpoints, structured logging, health checks, Docker configuration, and 15 passing lightweight tests. Full baseline generation/training, live HTTP checks, and Docker build/runtime verification remain pending local execution. No full-data quality or serving-performance results are claimed.
 
 ### Planned Milestones
 
 - [x] Phase 0: scope, success criteria, architecture, and repository scaffold
-- [ ] Baseline ML system
+- [x] Baseline ML system source and lightweight tests (full local run pending)
 - [ ] Production simulation
 - [ ] Monitoring and drift detection
 - [ ] RAG ingestion and retrieval
@@ -730,7 +743,7 @@ Phase 0 is complete: the scope, success criteria, recovery policy, architecture,
 
 ## Results
 
-Quantitative results will be added after the benchmark suite is complete.
+Full baseline model metrics will be generated locally by the Phase 1 training command and stored in the versioned bundle. End-to-end agent results will be added after the benchmark suite is complete. The passing lightweight tests validate implementation behavior, not the final evaluation targets.
 
 Planned reporting format:
 

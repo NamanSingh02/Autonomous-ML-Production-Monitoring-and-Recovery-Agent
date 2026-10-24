@@ -12,3 +12,15 @@
 - Marked all Phase 0 roadmap tasks complete. Later-phase tasks remain pending; no model, API, agent, or deployment was implemented in this phase.
 - Verified the 14 completed checklist items, pending later phases, 25 scaffold placeholders, local document links, Markdown code fences, writeup rules, unchanged Project Idea wording, and the steps-file ignore rule. The Git whitespace check passed.
 - Rewrote the Phase 0 challenges in first-person past tense, replacing general planning discussions with setup-specific troubleshooting entries covering path quoting, empty Git directories, steps.txt tracking, and heredoc delimiters.
+
+# Phase 1 - Build the Baseline ML Production System
+- Implemented the seeded equipment-v1 generator, training-only prevalence calibration, independent train/validation/test splits, dataset manifests, and checksum validation.
+- Implemented single-core RandomForestClassifier training, immutable model versions, release quality gates, measured metric recording, validation reference statistics, and generated model cards.
+- Implemented the shared feature contract and a FastAPI API with strict validation, structured/versioned predictions, request IDs, inference timing, JSON logs, liveness, and readiness.
+- Implemented artifact checksums, exact recorded runtime-version checks, feature-order checks, and a startup path that stayed unready instead of training when artifacts were unavailable.
+- Added pinned Python 3.11 dependencies, a non-root Dockerfile, a resource-bounded inference-only Compose configuration, and a standalone HTTP check script.
+- Ran 15 passing lightweight tests in an isolated temporary environment using 800 training rows, 200 validation rows, 200 test rows, and eight trees. The fixtures were deleted after the tests.
+- Replaced the deprecated HTTPX test-client dependency with the HTTPX2 client supported by the pinned Starlette version.
+- Updated README.md, Implementation_plan.md, Roadmap.md, docs/architecture.md, and docs/phase1.md, and added the complete execution sequence to the ignored local steps.txt.
+- Left full dataset generation, baseline training, live HTTP checks, Docker build, and container runtime verification pending for my later local run. No full-data metric results were reported.
+- Validated the Compose configuration without starting Docker services, checked dependency consistency, and checked Git whitespace formatting.
